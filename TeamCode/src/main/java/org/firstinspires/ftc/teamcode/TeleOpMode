@@ -1,0 +1,61 @@
+package org.firstinspires.ftc.teamcode;
+
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
+import java.lang.*;
+
+
+
+@TeleOp(name = "Basic: TeleOpMode", group = "Linear Opmode")
+public class TeleOpMode extends LinearOpMode
+{
+
+
+    private ElapsedTime runtime = new ElapsedTime();
+    private DcMotor leftDrive, rightDrive;
+
+    @Override
+    public void runOpMode()
+    {
+        telemetry.addData("Status", "Initialized");
+        telemetry.update();
+
+
+        leftDrive = hardwareMap.get(DcMotor.class, "LeftDrive");
+        rightDrive = hardwareMap.get(DcMotor.class, "RightDrive");
+        leftDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightDrive.setDirection(DcMotor.Direction.REVERSE);
+        waitForStart();
+        runtime.reset();
+
+        telemetry.addData("Status", "before While Loop");
+        telemetry.update();
+        while (opModeIsActive())
+        {
+
+            double leftPower;
+            double rightPower;
+            double drive;
+            double turn;
+
+            drive = - gamepad1.left_stick_y;
+            turn = gamepad1.right_stick_x;
+            rightPower = Range.clip(-(drive + turn), -1.0, 1.0);
+            leftPower = Range.clip(-(drive - turn), -1.0, 1.0 );
+
+
+
+
+
+            leftDrive.setPower(leftPower);
+            rightDrive.setPower(rightPower);
+
+
+        }
+    }
+}
